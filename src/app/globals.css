@@ -1,39 +1,40 @@
 @import "tailwindcss";
 
-/* Token del brand CUFFIA — vedi design-system/cuffia/pages/brand.md */
+/* Token del brand CUFFIA — vedi design-system/cuffia-v2/pages/brand.md */
 @theme inline {
-  --font-display: var(--font-fredoka), ui-rounded, system-ui, sans-serif;
-  --font-sans: var(--font-nunito), system-ui, sans-serif;
-  --font-hand: var(--font-caveat), cursive;
+  --font-display: var(--font-playfair), "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  --font-sans: var(--font-inter), system-ui, sans-serif;
 }
 
 @theme {
-  --color-panna: #fbf6ec;
-  --color-panna-2: #f4ebd9;
+  --color-fondo: #fafaf9;
+  --color-fondo-2: #f2f0ec;
   --color-carta: #ffffff;
-  --color-ink: #16171c;
-  --color-ink-soft: #55565f;
-  --color-azzurro: #8cc4f2;
-  --color-azzurro-soft: #dceefc;
-  --color-blu: #1f4fa8;
-  --color-blu-deep: #173b80;
-  --color-miele: #f6a723;
-  --color-sole: #fbdc93;
-  --color-bordo: #e6dac3;
-  --color-salvia: #5e8050;
-  --color-rosso: #c8372f;
+  --color-ink: #1c1917;
+  --color-ink-soft: #57534e;
+  --color-bordo: #e7e5e4;
+  --color-bordo-forte: #cfcbc7;
+  /* il blu del vichy di Barack: unico accento */
+  --color-blu: #1d4aa3;
+  --color-blu-deep: #12357a;
+  --color-vichy: #5b7fd1;
+  --color-azzurro: #e3ebfa;
+  --color-ok: #2f6f45;
+  --color-rosso: #b42318;
   --color-rosso-soft: #ffb4a8;
 
   --ease-out-quint: cubic-bezier(0.23, 1, 0.32, 1);
+  --shadow-soft: 0 1px 2px rgb(28 25 23 / 0.04), 0 8px 24px -8px rgb(28 25 23 / 0.1);
+  --shadow-lift: 0 2px 4px rgb(28 25 23 / 0.05), 0 22px 48px -16px rgb(28 25 23 / 0.22);
 }
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 7rem;
+  scroll-padding-top: 6rem;
 }
 
 body {
-  background: var(--color-panna);
+  background: var(--color-fondo);
   color: var(--color-ink);
   font-family: var(--font-sans);
   font-size: 1.0625rem;
@@ -45,101 +46,128 @@ h2,
 h3,
 h4 {
   font-family: var(--font-display);
-  font-weight: 600;
+  font-weight: 500;
   line-height: 1.08;
+  letter-spacing: -0.012em;
   text-wrap: balance;
 }
 
+h1 em,
+h2 em,
+h3 em {
+  font-style: italic;
+  font-weight: 400;
+}
+
 :focus-visible {
-  outline: 3px solid var(--color-blu);
+  outline: 2px solid var(--color-blu);
   outline-offset: 3px;
   border-radius: 6px;
+}
+
+::selection {
+  background: var(--color-azzurro);
+  color: var(--color-ink);
 }
 
 @layer components {
   .container-x {
     width: 100%;
-    max-width: 78rem;
+    max-width: 80rem;
     margin-inline: auto;
-    padding-inline: clamp(1rem, 4vw, 2.5rem);
+    padding-inline: clamp(1.25rem, 4vw, 3rem);
   }
 
-  /* Bottoni "sticker": bordo inchiostro e ombra piena */
+  .section {
+    padding-block: clamp(4.5rem, 9vw, 8rem);
+  }
+
   .btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
     min-height: 3rem;
-    padding: 0.6rem 1.5rem;
-    border: 2px solid var(--color-ink);
+    padding: 0.7rem 1.5rem;
+    border: 1px solid transparent;
     border-radius: 999px;
-    font-family: var(--font-display);
     font-weight: 600;
-    font-size: 1rem;
+    font-size: 0.95rem;
     line-height: 1.1;
+    letter-spacing: 0.005em;
     cursor: pointer;
-    box-shadow: 0 4px 0 var(--color-ink);
     transition:
-      transform 150ms var(--ease-out-quint),
-      box-shadow 150ms var(--ease-out-quint),
-      background-color 150ms ease;
-  }
-  .btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 0 var(--color-ink);
+      background-color 200ms var(--ease-out-quint),
+      color 200ms var(--ease-out-quint),
+      border-color 200ms var(--ease-out-quint),
+      transform 120ms ease-out;
   }
   .btn:active {
-    transform: translateY(3px);
-    box-shadow: 0 1px 0 var(--color-ink);
+    transform: scale(0.98);
   }
   .btn:disabled {
     cursor: not-allowed;
-    opacity: 0.55;
+    opacity: 0.5;
     transform: none;
-    box-shadow: 0 4px 0 var(--color-ink);
   }
   .btn-primary {
-    background: var(--color-blu);
+    background: var(--color-ink);
     color: #fff;
   }
   .btn-primary:hover {
+    background: var(--color-blu);
+  }
+  .btn-blu {
+    background: var(--color-blu);
+    color: #fff;
+  }
+  .btn-blu:hover {
     background: var(--color-blu-deep);
   }
-  .btn-miele {
-    background: var(--color-miele);
+  .btn-light {
+    background: #fff;
     color: var(--color-ink);
   }
+  .btn-light:hover {
+    background: var(--color-azzurro);
+  }
   .btn-ghost {
-    background: var(--color-carta);
+    background: transparent;
+    border-color: var(--color-bordo-forte);
+    color: var(--color-ink);
+  }
+  .btn-ghost:hover {
+    background: var(--color-ink);
+    border-color: var(--color-ink);
+    color: #fff;
+  }
+  .btn-outline-light {
+    background: transparent;
+    border-color: rgb(255 255 255 / 0.6);
+    color: #fff;
+  }
+  .btn-outline-light:hover {
+    background: #fff;
     color: var(--color-ink);
   }
   .btn-sm {
     min-height: 2.75rem;
-    padding: 0.4rem 1.1rem;
-    font-size: 0.95rem;
+    padding: 0.5rem 1.15rem;
+    font-size: 0.9rem;
   }
 
-  .sticker {
-    border: 2px solid var(--color-ink);
-    border-radius: 1.5rem;
+  .card {
+    border: 1px solid var(--color-bordo);
+    border-radius: 1.25rem;
     background: var(--color-carta);
-    box-shadow: 5px 5px 0 var(--color-ink);
-  }
-
-  /* Il vichy azzurro di Barack come firma grafica */
-  .gingham {
-    background-color: #fff;
-    background-image:
-      linear-gradient(90deg, rgba(140, 196, 242, 0.6) 50%, transparent 50%),
-      linear-gradient(rgba(140, 196, 242, 0.6) 50%, transparent 50%);
-    background-size: 28px 28px;
   }
 
   .eyebrow {
-    font-family: var(--font-hand);
-    font-size: 1.6rem;
-    line-height: 1;
+    font-size: 0.75rem;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
     color: var(--color-blu);
   }
 
@@ -147,49 +175,79 @@ h4 {
     display: inline-flex;
     align-items: center;
     gap: 0.35rem;
-    padding: 0.2rem 0.7rem;
-    border: 2px solid var(--color-ink);
+    padding: 0.25rem 0.65rem;
     border-radius: 999px;
-    font-family: var(--font-display);
-    font-weight: 500;
-    font-size: 0.8rem;
+    background: var(--color-carta);
+    font-weight: 600;
+    font-size: 0.72rem;
     line-height: 1.3;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
     white-space: nowrap;
+  }
+
+  /* dicitura obbligatoria sulle immagini generate con AI */
+  .ai-label {
+    position: absolute;
+    left: 0.6rem;
+    bottom: 0.6rem;
+    z-index: 2;
+    padding: 0.2rem 0.5rem;
+    border-radius: 999px;
+    background: rgb(28 25 23 / 0.62);
+    color: #fff;
+    font-size: 0.66rem;
+    font-weight: 500;
+    line-height: 1.3;
+    letter-spacing: 0.02em;
+    backdrop-filter: blur(6px);
+    pointer-events: none;
   }
 
   .field {
     width: 100%;
     min-height: 3rem;
-    padding: 0.6rem 0.9rem;
-    border: 2px solid var(--color-ink);
-    border-radius: 0.9rem;
+    padding: 0.65rem 0.95rem;
+    border: 1px solid var(--color-bordo-forte);
+    border-radius: 0.75rem;
     background: var(--color-carta);
     font-size: 1rem;
+    transition:
+      border-color 150ms ease,
+      box-shadow 150ms ease;
+  }
+  .field:hover {
+    border-color: var(--color-ink-soft);
+  }
+  .field:focus-visible {
+    outline: none;
+    border-color: var(--color-blu);
+    box-shadow: 0 0 0 3px var(--color-azzurro);
   }
   .field::placeholder {
-    color: #8a8b93;
+    color: #a8a29e;
   }
   .label {
     display: block;
-    margin-bottom: 0.3rem;
-    font-family: var(--font-display);
-    font-weight: 500;
-    font-size: 0.95rem;
+    margin-bottom: 0.35rem;
+    font-weight: 600;
+    font-size: 0.9rem;
   }
 
-  .card-lift {
-    transition:
-      transform 200ms var(--ease-out-quint),
-      box-shadow 200ms var(--ease-out-quint);
+  .link {
+    font-weight: 600;
+    color: var(--color-blu);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
   }
-  .card-lift:hover {
-    transform: translate(-2px, -4px);
-    box-shadow: 8px 10px 0 var(--color-ink);
+  .link:hover {
+    color: var(--color-blu-deep);
   }
 
   .prose-cuffia h2 {
-    font-size: 1.5rem;
-    margin: 2rem 0 0.6rem;
+    font-size: 1.6rem;
+    margin: 2.2rem 0 0.6rem;
   }
   .prose-cuffia p,
   .prose-cuffia li {
@@ -198,25 +256,16 @@ h4 {
   .prose-cuffia p {
     margin-bottom: 0.9rem;
   }
-  .prose-cuffia ul {
-    list-style: disc;
-    padding-left: 1.2rem;
-    margin-bottom: 0.9rem;
-  }
 }
 
-@keyframes barack-wag {
-  0%,
-  100% {
-    transform: rotate(-2deg);
-  }
-  50% {
-    transform: rotate(2.5deg);
-  }
-}
-.barack-tilt {
-  transform-origin: 50% 80%;
-  animation: barack-wag 5s ease-in-out infinite;
+/* il vichy come dettaglio grafico: una riga sottile, mai uno sfondo pieno */
+.vichy-line {
+  height: 10px;
+  background-color: #fff;
+  background-image:
+    linear-gradient(90deg, rgb(29 74 163 / 0.55) 50%, transparent 50%),
+    linear-gradient(rgb(29 74 163 / 0.55) 50%, transparent 50%);
+  background-size: 10px 10px;
 }
 
 @keyframes marquee {
@@ -225,19 +274,33 @@ h4 {
   }
 }
 .marquee-track {
-  animation: marquee 32s linear infinite;
+  animation: marquee 36s linear infinite;
+}
+
+@keyframes scroll-cue {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  60% {
+    transform: translateY(9px);
+    opacity: 0.2;
+  }
+}
+.scroll-cue {
+  animation: scroll-cue 2.2s var(--ease-out-quint) infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
   }
-  .barack-tilt,
-  .marquee-track {
+  .marquee-track,
+  .scroll-cue {
     animation: none;
   }
-  .btn,
-  .card-lift {
+  .btn {
     transition: none;
   }
 }

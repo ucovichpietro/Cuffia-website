@@ -16,36 +16,28 @@ const INFO = [
 
 export default function ContattiPage() {
   return (
-    <div className="container-x py-14">
+    <div className="container-x py-16">
       <p className="eyebrow">Siamo qui</p>
-      <h1 className="mt-2 text-5xl sm:text-6xl">Contatti</h1>
-      <p className="mt-4 max-w-xl text-lg text-ink-soft">
+      <h1 className="mt-4 text-6xl sm:text-7xl">Contatti</h1>
+      <p className="mt-5 max-w-xl text-lg text-ink-soft">
         Dubbi sulla taglia, un ordine da seguire, un reso da fare: scrivici. Rispondiamo entro un giorno lavorativo.
       </p>
 
-      <div className="mt-10 grid gap-10 lg:grid-cols-[1.3fr_1fr]">
-        <div className="sticker p-6 sm:p-8">
+      <div className="mt-12 grid gap-12 lg:grid-cols-[1.35fr_1fr] lg:gap-16">
+        <div className="card p-6 shadow-[var(--shadow-soft)] sm:p-9">
           <ContactForm />
         </div>
-        <div className="space-y-4">
+        <ul>
           {INFO.map((i) => (
-            <div key={i.label} className="flex gap-4 border-b-2 border-bordo pb-4">
-              <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full border-2 border-ink bg-azzurro">
-                <i.icon size={20} aria-hidden />
-              </span>
+            <li key={i.label} className="flex gap-4 border-t border-bordo-forte py-5 last:border-b">
+              <i.icon size={22} strokeWidth={1.5} className="mt-0.5 shrink-0 text-blu" aria-hidden />
               <div>
-                <p className="font-display font-semibold">{i.label}</p>
-                <p className="text-ink-soft">{i.value}</p>
+                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-ink-soft">{i.label}</p>
+                <p className="mt-1">{i.value}</p>
               </div>
-            </div>
+            </li>
           ))}
-          <div className="gingham rounded-3xl border-2 border-ink p-6">
-            <p className="inline-block rounded-2xl border-2 border-ink bg-carta px-4 py-3 font-hand text-2xl leading-tight">
-              Scrivi pure: le mail le leggo io.
-              <br />— Barack
-            </p>
-          </div>
-        </div>
+        </ul>
       </div>
     </div>
   );

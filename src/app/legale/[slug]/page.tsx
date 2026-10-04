@@ -59,9 +59,10 @@ export default async function LegalePage({ params }: PageProps<"/legale/[slug]">
   if (!doc) notFound();
 
   return (
-    <article className="container-x max-w-3xl py-14">
-      <h1 className="text-5xl">{doc.title}</h1>
-      <p className="chip mt-4 bg-miele">Bozza da far validare a un consulente legale</p>
+    <article className="container-x max-w-3xl py-16">
+      <p className="eyebrow">Note legali</p>
+      <h1 className="mt-4 text-5xl sm:text-6xl">{doc.title}</h1>
+      <p className="chip mt-5 bg-azzurro text-blu-deep">Bozza da far validare a un consulente legale</p>
       <div className="prose-cuffia mt-6">
         {doc.sections.map((s) => (
           <section key={s.h}>

@@ -15,10 +15,10 @@ export default function AccountPage() {
   const [note, setNote] = useState(false);
 
   return (
-    <div className="container-x grid gap-12 py-14 lg:grid-cols-2">
+    <div className="container-x grid gap-14 py-16 lg:grid-cols-2 lg:gap-20">
       <div>
         <p className="eyebrow">Area personale</p>
-        <h1 className="mt-2 text-5xl">Il tuo account</h1>
+        <h1 className="mt-4 text-5xl sm:text-6xl">Il tuo account</h1>
 
         <div role="tablist" aria-label="Accesso" className="mt-7 flex gap-2">
           {TABS.map((t) => (
@@ -28,10 +28,10 @@ export default function AccountPage() {
               role="tab"
               aria-selected={tab === t.id}
               onClick={() => { setTab(t.id); setNote(false); }}
-              className="relative min-h-11 cursor-pointer rounded-full border-2 border-ink px-5 font-display font-medium"
+              className={`relative min-h-11 cursor-pointer rounded-full px-5 text-[0.95rem] font-medium transition-colors duration-200 ${tab === t.id ? "text-white" : "text-ink hover:bg-fondo-2"}`}
             >
               {tab === t.id && (
-                <motion.span layoutId="account-pill" className="absolute inset-0 rounded-full bg-azzurro" transition={{ type: "spring", stiffness: 400, damping: 30 }} />
+                <motion.span layoutId="account-pill" className="absolute inset-0 rounded-full bg-ink" transition={{ type: "spring", stiffness: 400, damping: 30 }} />
               )}
               <span className="relative">{t.label}</span>
             </button>
@@ -39,7 +39,7 @@ export default function AccountPage() {
         </div>
 
         <form
-          className="sticker mt-6 space-y-4 p-6 sm:p-8"
+          className="card mt-6 space-y-4 p-6 shadow-[var(--shadow-soft)] sm:p-9"
           onSubmit={(e) => {
             e.preventDefault();
             setNote(true);
@@ -65,13 +65,13 @@ export default function AccountPage() {
               {tab === "accedi" ? "Accedi" : "Crea l'account"}
             </button>
             {tab === "accedi" && (
-              <button type="button" className="cursor-pointer font-display font-medium text-blu underline" onClick={() => setNote(true)}>
+              <button type="button" className="link cursor-pointer text-sm" onClick={() => setNote(true)}>
                 Password dimenticata?
               </button>
             )}
           </div>
           {note && (
-            <p role="status" className="rounded-2xl bg-azzurro-soft p-3 text-sm font-semibold">
+            <p role="status" className="rounded-xl bg-azzurro p-3 text-sm font-medium text-blu-deep">
               Area cliente dimostrativa: l&apos;accesso verrà collegato alla piattaforma e-commerce scelta.
             </p>
           )}
@@ -79,19 +79,17 @@ export default function AccountPage() {
       </div>
 
       <div>
-        <h2 className="text-3xl">Cosa trovi dentro</h2>
-        <ul className="mt-6 space-y-4">
+        <h2 className="text-4xl">Cosa trovi <em>dentro</em></h2>
+        <ul className="mt-8">
           {[
             { icon: Package, t: "Ordini e tracking", d: "Storico, dettaglio di ogni ordine, stato della spedizione, riordino in un clic." },
             { icon: MapPin, t: "Indirizzi e pagamenti", d: "Indirizzi salvati e metodi di pagamento per un checkout più veloce." },
             { icon: Settings, t: "Profilo e comunicazioni", d: "Dati personali, preferenze newsletter, richiesta di reso." },
           ].map((f) => (
-            <li key={f.t} className="flex gap-4 border-b-2 border-bordo pb-4">
-              <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full border-2 border-ink bg-azzurro">
-                <f.icon size={20} aria-hidden />
-              </span>
+            <li key={f.t} className="flex gap-4 border-t border-bordo-forte py-5 last:border-b">
+              <f.icon size={22} strokeWidth={1.5} className="mt-1 shrink-0 text-blu" aria-hidden />
               <div>
-                <h3 className="text-xl">{f.t}</h3>
+                <h3 className="text-2xl">{f.t}</h3>
                 <p className="text-ink-soft">{f.d}</p>
               </div>
             </li>

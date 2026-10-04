@@ -6,10 +6,10 @@
 
 ---
 
-**Project:** CUFFIA
-**Generated:** 2026-10-03 22:23:26
-**Category:** Pet Tech App
-**Design Dials:** Motion 5/10 (Standard) | Density 3/10 (Spacious)
+**Project:** CUFFIA v2
+**Generated:** 2026-10-04 12:23:48
+**Category:** E-commerce Luxury
+**Design Dials:** Variance 6/10 (Balanced / Modern) | Motion 7/10 (Standard) | Density 3/10 (Spacious)
 
 ---
 
@@ -19,35 +19,35 @@
 
 | Role | Hex | CSS Variable |
 |------|-----|--------------|
-| Primary | `#F97316` | `--color-primary` |
-| On Primary | `#0F172A` | `--color-on-primary` |
-| Secondary | `#FB923C` | `--color-secondary` |
-| On Secondary | `#0F172A` | `--color-on-secondary` |
-| Accent/CTA | `#2563EB` | `--color-accent` |
+| Primary | `#1C1917` | `--color-primary` |
+| On Primary | `#FFFFFF` | `--color-on-primary` |
+| Secondary | `#44403C` | `--color-secondary` |
+| On Secondary | `#FFFFFF` | `--color-on-secondary` |
+| Accent/CTA | `#A16207` | `--color-accent` |
 | On Accent/CTA | `#FFFFFF` | `--color-on-accent` |
-| Background | `#FFF7ED` | `--color-background` |
-| Foreground | `#9A3412` | `--color-foreground` |
+| Background | `#FAFAF9` | `--color-background` |
+| Foreground | `#0C0A09` | `--color-foreground` |
 | Card | `#FFFFFF` | `--color-card` |
-| Card Foreground | `#9A3412` | `--color-card-foreground` |
-| Muted | `#F1F0F0` | `--color-muted` |
+| Card Foreground | `#0C0A09` | `--color-card-foreground` |
+| Muted | `#E8ECF0` | `--color-muted` |
 | Muted Foreground | `#475569` | `--color-muted-foreground` |
-| Border | `#FED7AA` | `--color-border` |
+| Border | `#D6D3D1` | `--color-border` |
 | Destructive | `#DC2626` | `--color-destructive` |
 | On Destructive | `#FFFFFF` | `--color-on-destructive` |
-| Ring | `#000000` | `--color-ring` |
+| Ring | `#1C1917` | `--color-ring` |
 
-**Color Notes:** Playful orange + trust blue
+**Color Notes:** Premium dark + gold accent [Accent adjusted from #CA8A04]
 
 ### Typography
 
-- **Heading Font:** Varela Round
-- **Body Font:** Nunito Sans
-- **Mood:** soft, rounded, friendly, approachable, warm, gentle
-- **Google Fonts:** [Varela Round + Nunito Sans](https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;500;600;700&family=Varela+Round&display=swap)
+- **Heading Font:** Playfair Display
+- **Body Font:** Inter
+- **Mood:** elegant, luxury, sophisticated, timeless, premium, editorial
+- **Google Fonts:** [Playfair Display + Inter](https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap)
 
 **CSS Import:**
 ```css
-@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;500;600;700&family=Varela+Round&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap');
 ```
 
 ### Spacing Variables
@@ -82,8 +82,8 @@
 ```css
 /* Primary Button */
 .btn-primary {
-  background: #2563EB;
-  color: #FFFFFF;
+  background: #A16207;
+  color: white;
   padding: 12px 24px;
   border-radius: 8px;
   font-weight: 600;
@@ -99,8 +99,8 @@
 /* Secondary Button */
 .btn-secondary {
   background: transparent;
-  color: #9A3412;
-  border: 2px solid #F97316;
+  color: #1C1917;
+  border: 2px solid #1C1917;
   padding: 12px 24px;
   border-radius: 8px;
   font-weight: 600;
@@ -113,7 +113,7 @@
 
 ```css
 .card {
-  background: #FFF7ED;
+  background: #FAFAF9;
   border-radius: 12px;
   padding: 24px;
   box-shadow: var(--shadow-md);
@@ -139,9 +139,9 @@
 }
 
 .input:focus {
-  border-color: #F97316;
+  border-color: #1C1917;
   outline: none;
-  box-shadow: 0 0 0 3px #F9731620;
+  box-shadow: 0 0 0 3px #1C191720;
 }
 ```
 
@@ -167,44 +167,44 @@
 
 ## Style Guidelines
 
-**Style:** Claymorphism
+**Style:** 3D & Hyperrealism
 
-**Keywords:** Soft 3D, chunky, playful, toy-like, bubbly, thick borders (3-4px), double shadows, rounded (16-24px)
+**Keywords:** Depth, realistic textures, 3D models, spatial navigation, tactile, skeuomorphic elements, rich detail, immersive
 
-**Best For:** Educational apps, children's apps, SaaS platforms, creative tools, fun-focused, onboarding, casual games
+**Best For:** Gaming, product showcase, immersive experiences, high-end e-commerce, architectural viz, VR/AR
 
-**Key Effects:** Inner+outer shadows (subtle, no hard lines), soft press (200ms ease-out), fluffy elements, smooth transitions
+**Key Effects:** WebGL/Three.js 3D, realistic shadows (layers), physics lighting, parallax (3-5 layers), smooth 3D (300-400ms)
 
 ### Page Pattern
 
-**Pattern Name:** Scroll-Triggered Storytelling
+**Pattern Name:** Feature-Rich Showcase
 
-- **Conversion Strategy:** Keep the narrative understandable without scroll-driven effects. Use progress indicator. Mobile: simplify animations. Keep DOM reading order complete; disable parallax and scroll-scrub under reduced motion. Pause scroll animation when offscreen or hidden and render each chapter in its final readable state under reduced motion.
-- **CTA Placement:** End of each chapter (mini) + Final climax CTA
-- **Section Order:** Intro hook > Chapter 1 (problem) > Chapter 2 (journey) > Chapter 3 (solution) > Climax CTA
+- **Conversion Strategy:** Clear feature hierarchy. One key message per card. Strong CTA repetition.
+- **CTA Placement:** Hero (sticky) + After features + Bottom
+- **Section Order:** Hero (value prop) > Feature grid/cards (4-6) > Use cases or benefits > Social proof or logos > CTA
 
 ---
 
 ## Motion
 
-**Stagger List** (Standard) — Trigger: load or scroll | Duration: 300-450ms | Easing: `back.out(1.4)`
+**Parallax Scroll** (Standard) — Trigger: scroll (continuous) | Duration: tied to scroll position | Easing: `linear (scrub)`
 
 ```js
-gsap.from('.grid-item', { opacity: 0, scale: 0.92, y: 16, duration: 0.4, stagger: { each: 0.06, from: 'start', grid: 'auto' }, ease: 'back.out(1.4)' });
+gsap.utils.toArray('.parallax-layer').forEach((layer, i) => { gsap.to(layer, { yPercent: (i + 1) * -8, ease: 'none', scrollTrigger: { trigger: layer.parentElement, scrub: 0.5 } }); });
 ```
 
-**Framework notes:** grid: 'auto' lets GSAP infer rows/columns from a CSS grid layout for a natural wave stagger; Use matchMedia('(prefers-reduced-motion: reduce)') to skip non-essential motion and render the final state immediately
+**Framework notes:** Layer count beyond 3-4 has diminishing visual return and multiplies scroll-listener cost; Use matchMedia('(prefers-reduced-motion: reduce)') to skip non-essential motion and render the final state immediately
 
-- ✅ Combine with from: 'center' for a bento-grid layout to draw the eye inward first
-- ❌ Don't use back.out on dense data tables; the overshoot reads as sloppy on informational UI
-- ⚡ Group DOM writes; avoid interleaving layout reads (getBoundingClientRect) between staggered tweens
+- ✅ Vary speed per layer (background slowest, foreground fastest) to sell the depth illusion
+- ❌ Don't let parallax layers overflow their container; clip with overflow: hidden on the wrapper
+- ⚡ Batch all layers under one ScrollTrigger container where possible instead of one per layer
 
 ---
 
 ## Anti-Patterns (Do NOT Use)
 
-- ❌ Generic design
-- ❌ No personality
+- ❌ Vibrant & Block-based
+- ❌ Playful colors
 
 ### Additional Forbidden Patterns
 

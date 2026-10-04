@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Caveat, Fredoka, Nunito_Sans } from "next/font/google";
+import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/components/Providers";
 import { Header } from "@/components/Header";
@@ -7,12 +7,14 @@ import { Footer } from "@/components/Footer";
 import { CartDrawer } from "@/components/CartDrawer";
 import { Overlays } from "@/components/Overlays";
 
-// Titoli, logo, prezzi, bottoni: rotondo e pieno
-const fredoka = Fredoka({ variable: "--font-fredoka", subsets: ["latin"] });
-// Testi lunghi, schede, moduli, pagine legali: pulito e leggibile
-const nunito = Nunito_Sans({ variable: "--font-nunito", subsets: ["latin"] });
-// La "voce" di Barack: note a mano
-const caveat = Caveat({ variable: "--font-caveat", subsets: ["latin"] });
+// Titoli e prezzi: serif editoriale, con il corsivo per le parole chiave
+const playfair = Playfair_Display({
+  variable: "--font-playfair",
+  subsets: ["latin"],
+  style: ["normal", "italic"],
+});
+// Testi, menu, moduli, pagine legali: sans pulito e leggibile
+const inter = Inter({ variable: "--font-inter", subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: {
@@ -25,8 +27,8 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="it" className={`${fredoka.variable} ${nunito.variable} ${caveat.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col">
+    <html lang="it" className={`${playfair.variable} ${inter.variable} h-full antialiased`}>
+      <body className="flex min-h-full flex-col">
         <Providers>
           <a
             href="#contenuto"

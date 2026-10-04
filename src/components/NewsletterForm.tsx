@@ -14,8 +14,8 @@ export function NewsletterForm({ id, dark = false, onDone }: { id: string; dark?
 
   if (done) {
     return (
-      <p role="status" className={`flex items-start gap-2 font-display font-medium ${dark ? "text-white" : "text-ink"}`}>
-        <Check className="mt-0.5 shrink-0" />
+      <p role="status" className={`flex items-start gap-2 font-medium ${dark ? "text-white" : "text-ink"}`}>
+        <Check className="mt-0.5 shrink-0 text-ok" />
         <span>
           Iscrizione fatta. Il tuo codice è <strong>{PROMO.code}</strong>: vale il {PROMO.pct}% sul primo ordine.
         </span>
@@ -35,10 +35,10 @@ export function NewsletterForm({ id, dark = false, onDone }: { id: string; dark?
         onDone?.();
       }}
     >
-      <div className="flex gap-2">
-        <label htmlFor={`nl-${id}`} className="sr-only">
-          La tua email
-        </label>
+      <label htmlFor={`nl-${id}`} className={`label ${dark ? "text-white" : ""}`}>
+        La tua email
+      </label>
+      <div className="flex flex-col gap-2 sm:flex-row">
         <input
           id={`nl-${id}`}
           type="email"
@@ -50,11 +50,11 @@ export function NewsletterForm({ id, dark = false, onDone }: { id: string; dark?
           aria-invalid={Boolean(error)}
           className="field text-ink"
         />
-        <button type="submit" className="btn btn-miele btn-sm shrink-0">
+        <button type="submit" className={`btn shrink-0 ${dark ? "btn-light" : "btn-blu"}`}>
           Iscrivimi
         </button>
       </div>
-      <label className={`mt-3 flex cursor-pointer items-start gap-2 text-sm ${dark ? "text-panna/80" : "text-ink-soft"}`}>
+      <label className={`mt-3 flex cursor-pointer items-start gap-2 text-sm ${dark ? "text-white/75" : "text-ink-soft"}`}>
         <input
           type="checkbox"
           checked={consent}
@@ -63,7 +63,7 @@ export function NewsletterForm({ id, dark = false, onDone }: { id: string; dark?
         />
         <span>
           Voglio ricevere novità e offerte da CUFFIA e ho letto la{" "}
-          <Link href="/legale/privacy" className="underline">
+          <Link href="/legale/privacy" className="underline underline-offset-2">
             Privacy Policy
           </Link>
           .

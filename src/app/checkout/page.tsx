@@ -42,10 +42,10 @@ export default function CheckoutPage() {
   if (done) {
     return (
       <div className="container-x grid place-items-center py-24 text-center">
-        <span className="grid h-20 w-20 place-items-center rounded-full border-2 border-ink bg-azzurro">
+        <span className="grid h-20 w-20 place-items-center rounded-full bg-azzurro text-blu">
           <Check size={36} />
         </span>
-        <h1 className="mt-5 text-5xl">Ordine di prova completato</h1>
+        <h1 className="mt-6 text-5xl sm:text-6xl">Ordine di prova completato</h1>
         <p className="mt-3 max-w-md text-ink-soft">
           Questo checkout è dimostrativo: non è stato addebitato nulla. Nel sito reale qui arriva la conferma con il
           numero d&apos;ordine e il tracking.
@@ -60,7 +60,7 @@ export default function CheckoutPage() {
   if (c.ready && c.lines.length === 0) {
     return (
       <div className="container-x grid place-items-center gap-4 py-24 text-center">
-        <h1 className="text-5xl">Il carrello è vuoto</h1>
+        <h1 className="text-5xl sm:text-6xl">Il carrello è vuoto</h1>
         <Link href="/shop" className="btn btn-primary">
           Vai allo shop
         </Link>
@@ -69,17 +69,18 @@ export default function CheckoutPage() {
   }
 
   return (
-    <div className="container-x py-12">
-      <h1 className="text-5xl">Pagamento</h1>
-      <p className="chip mt-3 bg-miele">Checkout dimostrativo: nessun addebito</p>
+    <div className="container-x py-14">
+      <p className="eyebrow">Ultimo passo</p>
+      <h1 className="mt-4 text-5xl sm:text-6xl">Pagamento</h1>
+      <p className="chip mt-4 bg-azzurro text-blu-deep">Checkout dimostrativo: nessun addebito</p>
 
       <ol className="mt-7 flex flex-wrap gap-2" aria-label="Passi del checkout">
         {STEPS.map((s, i) => (
           <li
             key={s}
             aria-current={i === step ? "step" : undefined}
-            className={`flex min-h-11 items-center gap-2 rounded-full border-2 border-ink px-4 font-display font-medium ${
-              i === step ? "bg-ink text-white" : i < step ? "bg-azzurro" : "bg-carta text-ink-soft"
+            className={`flex min-h-11 items-center gap-2 rounded-full border px-4 text-[0.95rem] font-medium ${
+              i === step ? "border-ink bg-ink text-white" : i < step ? "border-azzurro bg-azzurro text-blu-deep" : "border-bordo-forte bg-carta text-ink-soft"
             }`}
           >
             <span className="tabular-nums">{i < step ? <Check size={16} /> : i + 1}</span> {s}
@@ -88,7 +89,7 @@ export default function CheckoutPage() {
       </ol>
 
       <div className="mt-8 grid gap-10 lg:grid-cols-[1.5fr_1fr]">
-        <div className="sticker overflow-hidden p-6 sm:p-8">
+        <div className="card overflow-hidden p-6 shadow-[var(--shadow-soft)] sm:p-9">
           <AnimatePresence mode="wait" initial={false} custom={dir}>
             <motion.div
               key={step}
@@ -103,7 +104,7 @@ export default function CheckoutPage() {
                   <h2 className="text-3xl">I tuoi contatti</h2>
                   <p className="text-ink-soft">
                     Puoi ordinare come ospite. Hai già un account?{" "}
-                    <Link href="/account" className="font-semibold text-blu underline">
+                    <Link href="/account" className="link">
                       Accedi
                     </Link>
                   </p>
@@ -136,12 +137,12 @@ export default function CheckoutPage() {
               )}
               {step === 2 && (
                 <fieldset>
-                  <legend className="text-3xl font-display font-semibold">Come vuoi pagare</legend>
+                  <legend className="font-display text-3xl">Come vuoi pagare</legend>
                   <div className="mt-4 space-y-2">
                     {METHODS.map((m) => (
-                      <label key={m} className={`flex min-h-14 cursor-pointer items-center gap-3 rounded-2xl border-2 px-4 ${method === m ? "border-ink bg-azzurro-soft" : "border-bordo"}`}>
+                      <label key={m} className={`flex min-h-14 cursor-pointer items-center gap-3 rounded-2xl border px-4 transition-colors duration-150 ${method === m ? "border-blu bg-azzurro" : "border-bordo-forte hover:border-ink"}`}>
                         <input type="radio" name="metodo" checked={method === m} onChange={() => setMethod(m)} className="h-5 w-5 accent-blu" />
-                        <span className="font-display font-medium">{m}</span>
+                        <span className="font-medium">{m}</span>
                       </label>
                     ))}
                   </div>

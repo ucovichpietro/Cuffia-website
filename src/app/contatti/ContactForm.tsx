@@ -26,10 +26,10 @@ export function ContactForm() {
   if (sent) {
     return (
       <div role="status" className="grid place-items-center gap-3 py-10 text-center">
-        <span className="grid h-16 w-16 place-items-center rounded-full border-2 border-ink bg-azzurro">
+        <span className="grid h-16 w-16 place-items-center rounded-full bg-azzurro text-blu">
           <Check size={30} />
         </span>
-        <h2 className="text-3xl">Messaggio inviato</h2>
+        <h2 className="text-4xl">Messaggio inviato</h2>
         <p className="max-w-sm text-ink-soft">Grazie {f.nome.split(" ")[0]}: ti rispondiamo entro un giorno lavorativo.</p>
         <button type="button" className="btn btn-ghost btn-sm" onClick={() => { setF(EMPTY); setConsent(false); setSent(false); }}>
           Scrivi un altro messaggio
@@ -69,7 +69,7 @@ export function ContactForm() {
         {err("email")}
       </div>
       <div>
-        <label htmlFor="telefono" className="label">Telefono <span className="font-sans text-sm font-normal text-ink-soft">(facoltativo)</span></label>
+        <label htmlFor="telefono" className="label">Telefono <span className="text-sm font-normal text-ink-soft">(facoltativo)</span></label>
         <input id="telefono" type="tel" className="field" autoComplete="tel" value={f.telefono} onChange={set("telefono")} />
       </div>
       <div>
@@ -90,9 +90,9 @@ export function ContactForm() {
       </div>
       <div className="sm:col-span-2">
         <label className="flex cursor-pointer items-start gap-2 text-ink-soft">
-          <input type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} className="mt-1 h-5 w-5 shrink-0 accent-blu" />
+          <input type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} className="mt-1 h-5 w-5 shrink-0 cursor-pointer accent-blu" />
           <span>
-            Ho letto la <Link href="/legale/privacy" className="underline">Privacy Policy</Link> e acconsento al trattamento dei dati per ricevere risposta.
+            Ho letto la <Link href="/legale/privacy" className="underline underline-offset-2">Privacy Policy</Link> e acconsento al trattamento dei dati per ricevere risposta.
           </span>
         </label>
         {err("consenso")}

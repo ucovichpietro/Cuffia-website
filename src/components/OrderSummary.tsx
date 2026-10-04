@@ -10,15 +10,15 @@ export function OrderSummary({ cta }: { cta?: React.ReactNode }) {
   const [msg, setMsg] = useState<{ ok: boolean; text: string } | null>(null);
 
   return (
-    <aside aria-label="Riepilogo ordine" className="sticker h-fit p-6">
+    <aside aria-label="Riepilogo ordine" className="card h-fit p-6 shadow-[var(--shadow-soft)] sm:p-7">
       <h2 className="text-2xl">Riepilogo</h2>
-      <dl className="mt-4 space-y-2 tabular-nums">
+      <dl className="mt-5 space-y-2.5 tabular-nums">
         <div className="flex justify-between">
-          <dt>Subtotale</dt>
+          <dt className="text-ink-soft">Subtotale</dt>
           <dd>{eur(c.subtotal)}</dd>
         </div>
         {c.promoApplied && (
-          <div className="flex justify-between text-salvia">
+          <div className="flex justify-between text-ok">
             <dt>
               Sconto {PROMO.code} (−{PROMO.pct}%)
             </dt>
@@ -26,18 +26,18 @@ export function OrderSummary({ cta }: { cta?: React.ReactNode }) {
           </div>
         )}
         <div className="flex justify-between">
-          <dt>Spedizione</dt>
+          <dt className="text-ink-soft">Spedizione</dt>
           <dd>{c.shipping === 0 ? "Gratuita" : eur(c.shipping)}</dd>
         </div>
-        <div className="flex justify-between border-t-2 border-ink pt-3 font-display text-2xl font-semibold">
-          <dt>Totale</dt>
-          <dd>{eur(c.total)}</dd>
+        <div className="flex items-baseline justify-between border-t border-bordo pt-4">
+          <dt className="font-semibold">Totale</dt>
+          <dd className="font-display text-3xl">{eur(c.total)}</dd>
         </div>
       </dl>
       <p className="mt-1 text-sm text-ink-soft">IVA inclusa.</p>
 
       <form
-        className="mt-5"
+        className="mt-6"
         onSubmit={(e) => {
           e.preventDefault();
           const ok = cart.applyPromo(code);
@@ -54,7 +54,7 @@ export function OrderSummary({ cta }: { cta?: React.ReactNode }) {
           </button>
         </div>
         {msg && (
-          <p role="status" className={`mt-2 text-sm font-semibold ${msg.ok ? "text-salvia" : "text-rosso"}`}>
+          <p role="status" className={`mt-2 text-sm font-semibold ${msg.ok ? "text-ok" : "text-rosso"}`}>
             {msg.text}
           </p>
         )}

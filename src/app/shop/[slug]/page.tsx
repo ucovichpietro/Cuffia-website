@@ -14,7 +14,7 @@ export async function generateMetadata({ params }: PageProps<"/shop/[slug]">): P
   const p = getProduct(slug);
   if (!p) return {};
   return {
-    title: `${p.name} — ${p.tipo === "Accessorio" ? "accessorio" : "cuffia paraorecchie"} per cani`,
+    title: `${p.name} — cuffia paraorecchie per cani`,
     description: p.description.slice(0, 155),
   };
 }
@@ -24,10 +24,7 @@ export default async function ProductPage({ params }: PageProps<"/shop/[slug]">)
   const product = getProduct(slug);
   if (!product) notFound();
 
-  const related = products
-    .filter((p) => p.slug !== product.slug && !p.comingSoon)
-    .sort((a, b) => Number(b.category !== product.category) - Number(a.category !== product.category))
-    .slice(0, 4);
+  const related = products.filter((p) => p.slug !== product.slug).slice(0, 4);
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -39,33 +36,32 @@ export default async function ProductPage({ params }: PageProps<"/shop/[slug]">)
       "@type": "Offer",
       price: product.price.toFixed(2),
       priceCurrency: "EUR",
-      availability: product.comingSoon ? "https://schema.org/PreOrder" : "https://schema.org/InStock",
+      availability: "https://schema.org/InStock",
     },
-    ...(product.reviews > 0 && {
-      aggregateRating: { "@type": "AggregateRating", ratingValue: product.rating, reviewCount: product.reviews },
-    }),
   };
 
   return (
-    <div className="container-x py-10">
+    <div className="container-x py-12">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <nav aria-label="Percorso" className="text-sm text-ink-soft">
         <Link href="/" className="hover:underline">
           Home
         </Link>{" "}
         /{" "}
-        <Link href={`/shop?cat=${product.category}`} className="capitalize hover:underline">
-          {product.category}
+        <Link href="/shop" className="hover:underline">
+          Shop
         </Link>{" "}
         / <span className="text-ink">{product.name}</span>
       </nav>
 
       <ProductClient product={product} />
 
-      <section className="mt-20">
-        <p className="eyebrow">Completa il corredo</p>
-        <h2 className="mb-7 mt-2 text-3xl sm:text-4xl">Potrebbero piacerti</h2>
-        <ul className="grid grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-4">
+      <section className="section pb-0">
+        <p className="eyebrow">Le altre cuffie</p>
+        <h2 className="mb-10 mt-4 text-4xl sm:text-5xl">
+          Potrebbero <em>piacerti</em>
+        </h2>
+        <ul className="grid grid-cols-2 gap-x-5 gap-y-10 lg:grid-cols-3 lg:gap-x-7">
           {related.map((p) => (
             <li key={p.slug}>
               <ProductCard product={p} />

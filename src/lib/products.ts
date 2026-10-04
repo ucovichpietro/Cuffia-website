@@ -1,35 +1,27 @@
-export type Pattern = {
-  type: "gingham" | "solid" | "stripes" | "dots";
-  /** colore chiaro / principale */
-  a: string;
-  /** colore scuro / secondario */
-  b: string;
-  base?: string;
-};
-
 export type Size = "XS" | "S" | "M" | "L";
 export type Category = "cuffie" | "accessori";
-export type Kind = "cuffia" | "bandana" | "kit" | "collare" | "guinzaglio";
-export type Tipo = "Cotone" | "Impermeabile" | "Imbottita" | "Pappa" | "Accessorio";
+export type Tipo = "Cotone" | "Impermeabile" | "Pile";
+
+export type Photo = {
+  src: string;
+  alt: string;
+  /** true: immagine generata con AI (va dichiarato a schermo) */
+  ai?: boolean;
+};
 
 export type Product = {
   slug: string;
   name: string;
   tagline: string;
   category: Category;
-  kind: Kind;
   tipo: Tipo;
   price: number;
   compareAt?: number;
   sizes: Size[];
-  pattern: Pattern;
-  bg: string;
+  images: Photo[];
   isNew?: boolean;
   bestseller?: boolean;
-  comingSoon?: boolean;
   stock: "ok" | "low";
-  rating: number;
-  reviews: number;
   description: string;
   bullets: string[];
   materiale: string;
@@ -43,317 +35,135 @@ export const PROMO = { code: "BARACK10", pct: 10 };
 export const eur = (n: number) =>
   new Intl.NumberFormat("it-IT", { style: "currency", currency: "EUR" }).format(n);
 
-/** Il vichy azzurro di Barack: quadretti azzurri e bianchi, incroci blu. */
-export const BARACK_PATTERN: Pattern = {
-  type: "gingham",
-  a: "#8CC4F2",
-  b: "#1F4FA8",
-  base: "#FFFFFF",
-};
+const real = (file: string, alt: string): Photo => ({ src: `/media/vere/${file}.jpg`, alt });
+
+/** Immagini generate con AI a partire dalle foto reali della cuffia. */
+export const AI = {
+  hero: { src: "/media/hero-still.jpg", alt: "Barack, cocker nero, cammina sul lungomare con la cuffia vichy blu", ai: true },
+  ritratto: { src: "/media/barack-ritratto.jpg", alt: "Barack con la cuffia vichy blu", ai: true },
+  orecchie: { src: "/media/barack-orecchie.jpg", alt: "Barack senza cuffia, con le orecchie lunghe e ricce", ai: true },
+  tessuto: { src: "/media/dettaglio-tessuto.jpg", alt: "Dettaglio del cotone vichy blu e dell'elastico arricciato", ai: true },
+  con: { src: "/media/confronto-con.jpg", alt: "Barack con la cuffia: orecchie raccolte nel tessuto", ai: true },
+  senza: { src: "/media/confronto-senza.jpg", alt: "Barack senza cuffia: orecchie lunghe libere", ai: true },
+} satisfies Record<string, Photo>;
 
 const ALL: Size[] = ["XS", "S", "M", "L"];
 
+/** Catalogo allineato alle cuffie che esistono davvero (vedi cartella "photo"). */
 export const products: Product[] = [
   {
     slug: "la-barack",
     name: "La Barack",
-    tagline: "Vichy azzurro, l'originale",
+    tagline: "Vichy blu, l'originale",
     category: "cuffie",
-    kind: "cuffia",
     tipo: "Cotone",
     price: 24,
     sizes: ALL,
-    pattern: BARACK_PATTERN,
-    bg: "#DCEEFC",
     bestseller: true,
     stock: "ok",
-    rating: 4.9,
-    reviews: 128,
+    images: [
+      AI.ritratto,
+      real("vichy-blu-01", "Cocker nero seduto con la cuffia vichy blu"),
+      real("vichy-blu-05", "La cuffia vichy blu vista di lato: copre orecchie e collo"),
+      real("vichy-blu-02", "Cocker nero di profilo con la cuffia vichy blu"),
+      AI.tessuto,
+    ],
     description:
-      "È la cuffia da cui è nato tutto: il vichy azzurro e bianco che Barack portava ogni giorno. Raccoglie le orecchie lunghe in un tubolare morbido di cotone, così restano fuori dalla ciotola, dalle pozzanghere e dall'erba alta. Due elastici dolci la tengono al suo posto senza stringere: si infila in tre secondi e il cane se ne dimentica.",
+      "È la cuffia da cui è nato tutto: il vichy blu e bianco che Barack portava ogni giorno. Un tubolare di cotone leggero raccoglie le orecchie lunghe e le tiene fuori dalla ciotola, dalle pozzanghere e dall'erba alta. Due elastici morbidi la tengono al suo posto senza stringere: si infila in pochi secondi e il cane se ne dimentica.",
     bullets: [
       "Orecchie pulite e asciutte a ogni pasto e passeggiata",
       "Cotone leggero e traspirante, adatto a tutte le stagioni",
       "Doppio elastico morbido: resta su senza stringere",
       "Si lava in lavatrice a 30°",
     ],
-    materiale: "100% cotone popeline, elastici rivestiti.",
+    materiale: "Cotone vichy tinto in filo, elastici rivestiti.",
     lavaggio: "Lavatrice a 30°, no asciugatrice. Stirare a bassa temperatura.",
   },
   {
-    slug: "vichy-ciliegia",
-    name: "Vichy Ciliegia",
-    tagline: "Quadretti rossi da picnic",
+    slug: "vichy-azzurro",
+    name: "Vichy Azzurro",
+    tagline: "Quadretti chiari, color cielo",
     category: "cuffie",
-    kind: "cuffia",
     tipo: "Cotone",
-    price: 22,
+    price: 24,
     sizes: ALL,
-    pattern: { type: "gingham", a: "#F4A3A0", b: "#C8372F", base: "#FFFFFF" },
-    bg: "#FCE4E1",
+    isNew: true,
     stock: "ok",
-    rating: 4.8,
-    reviews: 64,
+    images: [
+      real("vichy-azzurro-01", "Cocker nero con la cuffia vichy azzurra"),
+      real("vichy-azzurro-02", "La cuffia vichy azzurra portata morbida sul collo"),
+    ],
     description:
-      "Lo stesso taglio della Barack, in un vichy rosso ciliegia che sta bene su ogni manto. Cotone fresco per tutti i giorni: a tavola, al parco, in macchina.",
+      "Lo stesso taglio della Barack, in un vichy più chiaro: azzurro cielo e bianco. Cotone fresco per tutti i giorni, a tavola, al parco, in macchina.",
     bullets: [
       "Tiene le orecchie fuori da ciotola e sporco",
       "Cotone traspirante per l'uso quotidiano",
       "Doppio elastico morbido",
-      "Lavabile in lavatrice a 30°",
+      "Si lava in lavatrice a 30°",
     ],
-    materiale: "100% cotone popeline, elastici rivestiti.",
+    materiale: "Cotone vichy tinto in filo, elastici rivestiti.",
     lavaggio: "Lavatrice a 30°, no asciugatrice.",
-  },
-  {
-    slug: "vichy-salvia",
-    name: "Vichy Salvia",
-    tagline: "Verde tenue, effetto prato",
-    category: "cuffie",
-    kind: "cuffia",
-    tipo: "Cotone",
-    price: 22,
-    sizes: ["S", "M", "L"],
-    pattern: { type: "gingham", a: "#B7CFA9", b: "#5E8050", base: "#FFFFFF" },
-    bg: "#E6F0DF",
-    isNew: true,
-    stock: "ok",
-    rating: 4.7,
-    reviews: 21,
-    description:
-      "Un vichy verde salvia pensato per le passeggiate nei campi: protegge le orecchie da semi, polvere e spighe mentre il cane annusa in giro.",
-    bullets: [
-      "Uno scudo leggero contro semi e forasacchi",
-      "Cotone fresco, ideale da primavera a fine estate",
-      "Doppio elastico morbido",
-      "Lavabile in lavatrice a 30°",
-    ],
-    materiale: "100% cotone popeline, elastici rivestiti.",
-    lavaggio: "Lavatrice a 30°, no asciugatrice.",
-  },
-  {
-    slug: "pois-notte",
-    name: "Pois Notte",
-    tagline: "Blu profondo a pallini",
-    category: "cuffie",
-    kind: "cuffia",
-    tipo: "Cotone",
-    price: 22,
-    sizes: ALL,
-    pattern: { type: "dots", a: "#1F4FA8", b: "#FFFFFF" },
-    bg: "#DCE6F7",
-    isNew: true,
-    stock: "ok",
-    rating: 4.8,
-    reviews: 17,
-    description:
-      "Pallini bianchi su blu notte: elegante quanto basta per una cena fuori, pratica come tutte le nostre cuffie.",
-    bullets: [
-      "Orecchie raccolte e pulite",
-      "Cotone morbido a trama fitta",
-      "Doppio elastico morbido",
-      "Lavabile in lavatrice a 30°",
-    ],
-    materiale: "100% cotone, elastici rivestiti.",
-    lavaggio: "Lavatrice a 30°, no asciugatrice.",
-  },
-  {
-    slug: "mariniere",
-    name: "Marinière",
-    tagline: "Righe da lungomare",
-    category: "cuffie",
-    kind: "cuffia",
-    tipo: "Cotone",
-    price: 19,
-    compareAt: 22,
-    sizes: ["S", "M"],
-    pattern: { type: "stripes", a: "#16306B", b: "#16306B", base: "#FFFFFF" },
-    bg: "#E9EEF8",
-    stock: "low",
-    rating: 4.6,
-    reviews: 39,
-    description:
-      "Righe blu su bianco, in jersey di cotone leggermente elastico: per i cani che non amano sentirsi addosso il tessuto rigido. Ultime taglie.",
-    bullets: [
-      "Jersey elastico: veste come una maglietta",
-      "Ideale per chi è alla prima cuffia",
-      "Asciuga in fretta",
-      "Lavabile in lavatrice a 30°",
-    ],
-    materiale: "95% cotone, 5% elastan.",
-    lavaggio: "Lavatrice a 30°, no asciugatrice.",
-  },
-  {
-    slug: "cuffia-pappa",
-    name: "Cuffia Pappa",
-    tagline: "Ultraleggera, solo per la ciotola",
-    category: "cuffie",
-    kind: "cuffia",
-    tipo: "Pappa",
-    price: 18,
-    sizes: ALL,
-    pattern: { type: "stripes", a: "#F6A723", b: "#F6A723", base: "#FFF6DF" },
-    bg: "#FDEFCB",
-    bestseller: true,
-    stock: "ok",
-    rating: 4.9,
-    reviews: 92,
-    description:
-      "Pesa meno di 20 grammi ed è fatta per una cosa sola: tenere le orecchie fuori dalla ciotola. Si infila prima della pappa, si sfila subito dopo, si sciacqua sotto l'acqua.",
-    bullets: [
-      "Niente più orecchie nella ciotola",
-      "Tessuto tecnico sottile: quasi non si sente",
-      "Si sciacqua e asciuga in pochi minuti",
-      "Perfetta anche per l'acqua da bere",
-    ],
-    materiale: "100% poliestere leggero, elastici rivestiti.",
-    lavaggio: "Sciacquare a mano o lavatrice a 30°.",
   },
   {
     slug: "cuffia-pioggia",
     name: "Cuffia Pioggia",
-    tagline: "Impermeabile, per i giorni grigi",
+    tagline: "Tessuto tecnico grigio, per i giorni bagnati",
     category: "cuffie",
-    kind: "cuffia",
     tipo: "Impermeabile",
-    price: 26,
+    price: 28,
     sizes: ["S", "M", "L"],
-    pattern: { type: "solid", a: "#23407A", b: "#F6A723" },
-    bg: "#DDE5F3",
     stock: "ok",
-    rating: 4.8,
-    reviews: 47,
-    description:
-      "Tessuto impermeabile fuori, fodera morbida dentro. Le orecchie tornano a casa asciutte anche quando piove: meno umidità, meno tempo con l'asciugamano.",
-    bullets: [
-      "Esterno impermeabile e antivento",
-      "Fodera interna morbida",
-      "Elastico regolabile con fermacorda",
-      "Si pulisce con un panno umido",
+    images: [
+      real("tecnica-grigia-01", "Cocker nero con la cuffia in tessuto tecnico grigio"),
+      real("tecnica-grigia-02", "La cuffia grigia impermeabile vista dall'alto"),
     ],
-    materiale: "Esterno poliestere spalmato, fodera in cotone.",
+    description:
+      "In tessuto tecnico leggero, per quando fuori piove. Le orecchie tornano a casa asciutte: meno umidità e meno tempo con l'asciugamano.",
+    bullets: [
+      "Tessuto tecnico che non assorbe l'acqua",
+      "Leggera: non pesa sulla testa",
+      "Si pulisce con un panno umido",
+      "Asciuga in pochi minuti",
+    ],
+    materiale: "Tessuto tecnico leggero, elastici rivestiti.",
     lavaggio: "Lavatrice a 30° ciclo delicato, no ammorbidente.",
   },
   {
     slug: "cuffia-inverno",
     name: "Cuffia Inverno",
-    tagline: "Imbottita, calda e morbida",
+    tagline: "Pile grigio con il cuore rosso",
     category: "cuffie",
-    kind: "cuffia",
-    tipo: "Imbottita",
-    price: 28,
+    tipo: "Pile",
+    price: 26,
     sizes: ["S", "M", "L"],
-    pattern: { type: "dots", a: "#8E2F3C", b: "#F4D9B0" },
-    bg: "#F5DFD9",
-    isNew: true,
-    stock: "ok",
-    rating: 4.7,
-    reviews: 12,
+    stock: "low",
+    images: [real("pile-cuore-01", "Cocker nero con la cuffia in pile grigio con cuore rosso")],
     description:
-      "Esterno resistente all'acqua, interno in pile: per le mattine fredde e le uscite sulla neve. Tiene al caldo le orecchie senza farle sudare.",
+      "In pile morbido, per le mattine fredde. Tiene al caldo orecchie e collo, e il cuore rosso si vede da lontano.",
     bullets: [
-      "Imbottitura in pile morbido",
-      "Esterno resistente all'acqua",
-      "Elastico regolabile con fermacorda",
-      "Lavabile in lavatrice a 30°",
+      "Pile morbido e caldo",
+      "Fa anche da scaldacollo",
+      "Elastico morbido che non stringe",
+      "Si lava in lavatrice a 30°",
     ],
-    materiale: "Esterno poliestere, interno pile.",
+    materiale: "Pile, applicazione a cuore, elastici rivestiti.",
     lavaggio: "Lavatrice a 30° ciclo delicato.",
-  },
-  {
-    slug: "bandana-vichy",
-    name: "Bandana Vichy",
-    tagline: "Coordinata alla Barack",
-    category: "accessori",
-    kind: "bandana",
-    tipo: "Accessorio",
-    price: 12,
-    sizes: ["S", "M", "L"],
-    pattern: BARACK_PATTERN,
-    bg: "#DCEEFC",
-    stock: "ok",
-    rating: 4.8,
-    reviews: 33,
-    description:
-      "Lo stesso vichy azzurro della Barack, in versione bandana: per i giorni in cui le orecchie possono stare libere ma lo stile no.",
-    bullets: [
-      "Stesso tessuto della cuffia Barack",
-      "Chiusura con bottone a pressione",
-      "Lavabile in lavatrice a 30°",
-    ],
-    materiale: "100% cotone popeline.",
-    lavaggio: "Lavatrice a 30°.",
-  },
-  {
-    slug: "kit-tre-cuffie",
-    name: "Kit Tre Cuffie",
-    tagline: "Pappa, pioggia, tutti i giorni",
-    category: "accessori",
-    kind: "kit",
-    tipo: "Accessorio",
-    price: 59,
-    compareAt: 68,
-    sizes: ["S", "M", "L"],
-    pattern: BARACK_PATTERN,
-    bg: "#FDEFCB",
-    stock: "ok",
-    rating: 4.9,
-    reviews: 26,
-    description:
-      "Le tre cuffie che servono davvero: La Barack per tutti i giorni, la Pappa per la ciotola, la Pioggia per quando fuori è brutto. Insieme costano meno.",
-    bullets: [
-      "La Barack + Cuffia Pappa + Cuffia Pioggia",
-      "Risparmi 9 € rispetto all'acquisto singolo",
-      "In una sacchetta di cotone riutilizzabile",
-    ],
-    materiale: "Vedi le singole cuffie.",
-    lavaggio: "Vedi le singole cuffie.",
-  },
-  {
-    slug: "collare-vichy",
-    name: "Collare Vichy",
-    tagline: "In arrivo",
-    category: "accessori",
-    kind: "collare",
-    tipo: "Accessorio",
-    price: 19,
-    sizes: ["S", "M", "L"],
-    pattern: BARACK_PATTERN,
-    bg: "#E6F0DF",
-    comingSoon: true,
-    stock: "ok",
-    rating: 0,
-    reviews: 0,
-    description:
-      "Il collare coordinato alla Barack è in lavorazione. Iscriviti alla newsletter: avvisiamo prima chi è in lista.",
-    bullets: ["Stesso vichy azzurro", "Fibbia regolabile", "Disponibile a breve"],
-    materiale: "In definizione.",
-    lavaggio: "In definizione.",
-  },
-  {
-    slug: "guinzaglio-vichy",
-    name: "Guinzaglio Vichy",
-    tagline: "In arrivo",
-    category: "accessori",
-    kind: "guinzaglio",
-    tipo: "Accessorio",
-    price: 24,
-    sizes: ["M"],
-    pattern: BARACK_PATTERN,
-    bg: "#FCE4E1",
-    comingSoon: true,
-    stock: "ok",
-    rating: 0,
-    reviews: 0,
-    description:
-      "Il guinzaglio coordinato arriva insieme al collare. Iscriviti alla newsletter per sapere quando.",
-    bullets: ["Stesso vichy azzurro", "Maniglia imbottita", "Disponibile a breve"],
-    materiale: "In definizione.",
-    lavaggio: "In definizione.",
   },
 ];
 
 export const getProduct = (slug: string) => products.find((p) => p.slug === slug);
+
+/** Foto reali della cuffia indossata: la galleria "dal vivo". */
+export const GALLERY: Photo[] = [
+  real("vichy-blu-06", "Cocker blu roano con la cuffia vichy blu, seduto sotto un tavolino al mare"),
+  real("vichy-blu-03", "Cocker nero con la cuffia vichy blu"),
+  real("vichy-azzurro-01", "Cocker nero con la cuffia vichy azzurra"),
+  real("vichy-blu-07", "Cocker blu roano con la cuffia vichy blu"),
+  real("tecnica-grigia-01", "Cocker nero con la cuffia grigia impermeabile"),
+  real("vichy-blu-02", "Cocker nero di profilo con la cuffia vichy blu"),
+  real("vichy-blu-04", "Cocker nero con la cuffia vichy blu e la lingua fuori"),
+  real("pile-cuore-01", "Cocker nero con la cuffia in pile con cuore rosso"),
+];
 
 /** Misure indicative: da confermare sul campionario reale. */
 export const SIZE_GUIDE: { size: Size; collo: string; testa: string; razze: string }[] = [
@@ -372,24 +182,6 @@ export const BREEDS: { name: string; size: Size; note: string }[] = [
   { name: "Setter", size: "L", note: "Testa lunga e orecchie setose: taglia L." },
   { name: "Bassotto a pelo lungo", size: "S", note: "Per i più piccoli valuta la XS." },
   { name: "Barboncino", size: "XS", note: "Toy e nano: XS. Medio: S." },
-];
-
-export const REVIEWS = [
-  {
-    name: "Giulia e Otto",
-    dog: "Cocker Spaniel",
-    text: "Prima ogni pasto finiva con le orecchie nel sugo. Ora metto la cuffia, mangia, la tolgo. Fine del bagnetto quotidiano.",
-  },
-  {
-    name: "Marco e Nina",
-    dog: "Cavalier King",
-    text: "La S le sta perfetta e non prova nemmeno a toglierla. Al parco ci fermano tutti per chiedere dove l'abbiamo presa.",
-  },
-  {
-    name: "Elena e Brando",
-    dog: "Basset Hound",
-    text: "Con quelle orecchie spazzava il marciapiede. La Pioggia è stata la svolta: torna a casa e le orecchie sono asciutte.",
-  },
 ];
 
 export const FAQ = [
@@ -411,7 +203,7 @@ export const FAQ = [
   },
   {
     q: "Come si lava?",
-    a: "Le cuffie in cotone vanno in lavatrice a 30°. Quelle impermeabili e imbottite con ciclo delicato, senza ammorbidente. Niente asciugatrice.",
+    a: "Le cuffie in cotone vanno in lavatrice a 30°. Quelle in tessuto tecnico e in pile con ciclo delicato, senza ammorbidente. Niente asciugatrice.",
   },
   {
     q: "La cuffia cura o previene l'otite?",
@@ -424,5 +216,9 @@ export const FAQ = [
   {
     q: "Posso fare il reso?",
     a: "Sì, hai 30 giorni dalla consegna per restituire un prodotto non usato. Il diritto di recesso di legge (14 giorni) resta sempre valido.",
+  },
+  {
+    q: "Le foto del sito sono vere?",
+    a: "Le foto di prodotto indossato sono scatti reali. Alcune immagini, tra cui quella d'apertura, sono generate con intelligenza artificiale a partire dalle foto vere della cuffia: sono sempre indicate con la dicitura «Immagine generata con AI».",
   },
 ];

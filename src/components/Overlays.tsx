@@ -5,8 +5,9 @@ import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { X } from "lucide-react";
 import { setStored, useStored } from "@/lib/store";
+import { AI } from "@/lib/products";
 import { EASE_OUT } from "./Providers";
-import { Barack } from "./Barack";
+import { Photo } from "./Photo";
 import { NewsletterForm } from "./NewsletterForm";
 
 const CONSENT = "cuffia-consent";
@@ -31,7 +32,7 @@ function CookieBanner() {
 
   return (
     <motion.div
-      className="fixed inset-0 z-[60] flex items-end justify-center bg-ink/45 p-3 sm:p-6"
+      className="fixed inset-0 z-[60] flex items-end justify-center bg-ink/45 p-3 backdrop-blur-sm sm:p-6"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -45,34 +46,34 @@ function CookieBanner() {
         animate={{ y: 0, opacity: 1 }}
         exit={{ y: 30, opacity: 0 }}
         transition={{ duration: 0.3, ease: EASE_OUT }}
-        className="sticker max-h-[88vh] w-full max-w-2xl overflow-y-auto p-5 sm:p-7"
+        className="card max-h-[88vh] w-full max-w-2xl overflow-y-auto p-6 shadow-[var(--shadow-lift)] sm:p-8"
       >
-        <h2 id="cookie-title" className="text-2xl">
-          Biscotti? Solo quelli che vuoi tu
+        <h2 id="cookie-title" className="text-3xl">
+          Cookie: scegli tu
         </h2>
-        <p className="mt-2 text-ink-soft">
+        <p className="mt-3 text-ink-soft">
           Usiamo cookie necessari per far funzionare il sito. Con il tuo consenso ne usiamo altri per ricordare le tue
           preferenze, misurare le visite e fare marketing. Puoi cambiare idea quando vuoi dalla{" "}
-          <Link href="/legale/cookie" className="font-semibold text-blu underline">
+          <Link href="/legale/cookie" className="link">
             Cookie Policy
           </Link>
           .
         </p>
 
         {custom && (
-          <ul className="mt-4 space-y-2">
-            <li className="flex items-center justify-between gap-4 rounded-2xl bg-panna p-3">
+          <ul className="mt-5 divide-y divide-bordo border-y border-bordo">
+            <li className="flex items-center justify-between gap-4 py-3">
               <span>
-                <span className="block font-display font-semibold">Necessari</span>
+                <span className="block font-semibold">Necessari</span>
                 <span className="text-sm text-ink-soft">Carrello, sicurezza, salvataggio di questa scelta.</span>
               </span>
-              <span className="chip bg-panna-2">Sempre attivi</span>
+              <span className="chip bg-fondo-2">Sempre attivi</span>
             </li>
             {CATEGORIES.map((c) => (
-              <li key={c.key} className="rounded-2xl bg-panna p-3">
+              <li key={c.key} className="py-3">
                 <label className="flex cursor-pointer items-center justify-between gap-4">
                   <span>
-                    <span className="block font-display font-semibold">{c.title}</span>
+                    <span className="block font-semibold">{c.title}</span>
                     <span className="text-sm text-ink-soft">{c.text}</span>
                   </span>
                   <input
@@ -88,7 +89,7 @@ function CookieBanner() {
           </ul>
         )}
 
-        <div className="mt-5 flex flex-wrap gap-3">
+        <div className="mt-6 flex flex-wrap gap-3">
           <button type="button" className="btn btn-primary btn-sm" onClick={() => save({ preferenze: true, statistiche: true, marketing: true })}>
             Accetta tutti
           </button>
@@ -119,7 +120,7 @@ function NewsletterModal({ onClose }: { onClose: () => void }) {
 
   return (
     <motion.div
-      className="fixed inset-0 z-[55] grid place-items-center bg-ink/45 p-4"
+      className="fixed inset-0 z-[55] grid place-items-center bg-ink/45 p-4 backdrop-blur-sm"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -130,30 +131,28 @@ function NewsletterModal({ onClose }: { onClose: () => void }) {
         role="dialog"
         aria-modal="true"
         aria-labelledby="nl-title"
-        initial={{ scale: 0.94, opacity: 0, y: 12 }}
+        initial={{ scale: 0.95, opacity: 0, y: 12 }}
         animate={{ scale: 1, opacity: 1, y: 0 }}
-        exit={{ scale: 0.96, opacity: 0 }}
+        exit={{ scale: 0.97, opacity: 0 }}
         transition={{ duration: 0.25, ease: EASE_OUT }}
-        className="sticker relative grid w-full max-w-3xl overflow-hidden sm:grid-cols-[0.8fr_1fr]"
+        className="card relative grid w-full max-w-3xl overflow-hidden shadow-[var(--shadow-lift)] sm:grid-cols-[0.85fr_1fr]"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="hidden place-items-end border-r-2 border-ink bg-sole sm:grid">
-          <Barack className="w-full" />
-        </div>
-        <div className="p-6 sm:p-8">
+        <Photo photo={AI.ritratto} sizes="340px" className="hidden min-h-[26rem] sm:block" />
+        <div className="p-7 sm:p-9">
           <button
             type="button"
             onClick={onClose}
             aria-label="Chiudi"
-            className="absolute right-3 top-3 grid h-11 w-11 cursor-pointer place-items-center rounded-full bg-carta hover:bg-panna-2"
+            className="absolute right-3 top-3 grid h-11 w-11 cursor-pointer place-items-center rounded-full bg-carta hover:bg-fondo-2"
           >
             <X />
           </button>
-          <p className="eyebrow">Barack ti fa lo sconto</p>
-          <h2 id="nl-title" className="mt-1 text-3xl">
-            10% sul primo ordine
+          <p className="eyebrow">Benvenuto nel branco</p>
+          <h2 id="nl-title" className="mt-3 text-4xl">
+            10% sul <em>primo ordine</em>
           </h2>
-          <p className="mb-5 mt-2 text-ink-soft">
+          <p className="mb-6 mt-3 text-ink-soft">
             Iscriviti alla newsletter: nuove fantasie in anteprima, consigli per le orecchie lunghe e niente spam.
           </p>
           <NewsletterForm id="modal" onDone={() => setStored(NL, "iscritto")} />
@@ -173,7 +172,7 @@ export function Overlays() {
 
   useEffect(() => {
     if (!canAskNewsletter) return;
-    const t = setTimeout(() => setNlOpen(true), 9000);
+    const t = setTimeout(() => setNlOpen(true), 20000);
     return () => clearTimeout(t);
   }, [canAskNewsletter]);
 

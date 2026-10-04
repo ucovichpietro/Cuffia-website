@@ -23,12 +23,12 @@
   "design": {
     "colorMode": "light",
     "colors": {
-      "--color-panna": {
-        "value": "#fbf6ec",
+      "--color-fondo": {
+        "value": "#fafaf9",
         "source": "src/app/globals.css"
       },
-      "--color-panna-2": {
-        "value": "#f4ebd9",
+      "--color-fondo-2": {
+        "value": "#f2f0ec",
         "source": "src/app/globals.css"
       },
       "--color-carta": {
@@ -36,47 +36,43 @@
         "source": "src/app/globals.css"
       },
       "--color-ink": {
-        "value": "#16171c",
+        "value": "#1c1917",
         "source": "src/app/globals.css"
       },
       "--color-ink-soft": {
-        "value": "#55565f",
-        "source": "src/app/globals.css"
-      },
-      "--color-azzurro": {
-        "value": "#8cc4f2",
-        "source": "src/app/globals.css"
-      },
-      "--color-azzurro-soft": {
-        "value": "#dceefc",
-        "source": "src/app/globals.css"
-      },
-      "--color-blu": {
-        "value": "#1f4fa8",
-        "source": "src/app/globals.css"
-      },
-      "--color-blu-deep": {
-        "value": "#173b80",
-        "source": "src/app/globals.css"
-      },
-      "--color-miele": {
-        "value": "#f6a723",
-        "source": "src/app/globals.css"
-      },
-      "--color-sole": {
-        "value": "#fbdc93",
+        "value": "#57534e",
         "source": "src/app/globals.css"
       },
       "--color-bordo": {
-        "value": "#e6dac3",
+        "value": "#e7e5e4",
         "source": "src/app/globals.css"
       },
-      "--color-salvia": {
-        "value": "#5e8050",
+      "--color-bordo-forte": {
+        "value": "#cfcbc7",
+        "source": "src/app/globals.css"
+      },
+      "--color-blu": {
+        "value": "#1d4aa3",
+        "source": "src/app/globals.css"
+      },
+      "--color-blu-deep": {
+        "value": "#12357a",
+        "source": "src/app/globals.css"
+      },
+      "--color-vichy": {
+        "value": "#5b7fd1",
+        "source": "src/app/globals.css"
+      },
+      "--color-azzurro": {
+        "value": "#e3ebfa",
+        "source": "src/app/globals.css"
+      },
+      "--color-ok": {
+        "value": "#2f6f45",
         "source": "src/app/globals.css"
       },
       "--color-rosso": {
-        "value": "#c8372f",
+        "value": "#b42318",
         "source": "src/app/globals.css"
       },
       "--color-rosso-soft": {
@@ -86,21 +82,26 @@
     },
     "typography": {
       "--font-display": {
-        "value": "var(--font-fredoka), ui-rounded, system-ui, sans-serif",
+        "value": "var(--font-playfair), \"Iowan Old Style\", \"Palatino Linotype\", Georgia, serif",
         "source": "src/app/globals.css"
       },
       "--font-sans": {
-        "value": "var(--font-nunito), system-ui, sans-serif",
-        "source": "src/app/globals.css"
-      },
-      "--font-hand": {
-        "value": "var(--font-caveat), cursive",
+        "value": "var(--font-inter), system-ui, sans-serif",
         "source": "src/app/globals.css"
       }
     },
     "spacing": {},
     "radius": {},
-    "shadows": {},
+    "shadows": {
+      "--shadow-soft": {
+        "value": "0 1px 2px rgb(28 25 23 / 0.04), 0 8px 24px -8px rgb(28 25 23 / 0.1)",
+        "source": "src/app/globals.css"
+      },
+      "--shadow-lift": {
+        "value": "0 2px 4px rgb(28 25 23 / 0.05), 0 22px 48px -16px rgb(28 25 23 / 0.22)",
+        "source": "src/app/globals.css"
+      }
+    },
     "motion": {
       "--ease-out-quint": {
         "value": "cubic-bezier(0.23, 1, 0.32, 1)",
@@ -120,24 +121,29 @@
   },
   "decisions": [
     {
-      "date": "2026-10-03",
+      "date": "2026-10-04",
       "topic": "direction",
-      "choice": "Sticker/claymorphism: bordo ink 2px, ombra piena, vichy azzurro come firma"
+      "choice": "v2 editoriale e fotografica: video a tutto schermo, niente illustrazioni, filetti da 1px, ombre morbide"
     },
     {
-      "date": "2026-10-03",
+      "date": "2026-10-04",
       "topic": "typography",
-      "choice": "Fredoka (display), Nunito Sans (testo), Caveat (voce di Barack)"
+      "choice": "Playfair Display (titoli, con corsivo per le parole chiave) + Inter (testi e interfaccia)"
     },
     {
-      "date": "2026-10-03",
+      "date": "2026-10-04",
       "topic": "color",
-      "choice": "panna #FBF6EC, ink #16171C, azzurro #8CC4F2, blu #1F4FA8, miele #F6A723"
+      "choice": "fondo #FAFAF9, ink #1C1917, blu #1D4AA3 unico accento (il blu del vichy), azzurro #E3EBFA"
+    },
+    {
+      "date": "2026-10-04",
+      "topic": "imagery",
+      "choice": "foto reali della cuffia + immagini generate con AI sempre dichiarate a schermo"
     },
     {
       "date": "2026-10-03",
       "topic": "components",
-      "choice": "Confronto con/senza cuffia adattato da 21st 'Image Comparison Slider' (@wensity, id 31523); gli altri componenti sono scritti a mano"
+      "choice": "Confronto con/senza cuffia adattato da 21st 'Image Comparison Slider' (@wensity, id 31523)"
     }
   ],
   "evidence": [
@@ -170,5 +176,5 @@
       "source": "package.json"
     }
   ],
-  "generatedAt": "2026-10-03T20:41:22.709Z"
+  "generatedAt": "2026-10-04T10:56:38.898Z"
 }

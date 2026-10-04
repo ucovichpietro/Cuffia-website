@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import {
   animate,
@@ -11,11 +12,11 @@ import {
   type AnimationPlaybackControls,
 } from "motion/react";
 import { ChevronsLeftRight } from "lucide-react";
-import { Barack } from "../Barack";
+import { AI } from "@/lib/products";
 import { EASE_OUT } from "../Providers";
 
 const KEY_STEP = 0.04;
-const START = 0.55;
+const START = 0.5;
 const clamp01 = (n: number) => Math.min(1, Math.max(0, n));
 
 /**
@@ -37,19 +38,31 @@ export function BeforeAfter() {
     if (!dragging.current) setValue(Math.round(clamp01(v) * 100));
   });
 
-  // Una sola animazione dimostrativa all'ingresso: insegna il gesto, poi si ferma.
+  // Una sola animazione dimostrativa quando entra in vista: insegna il gesto, poi si ferma.
   useEffect(() => {
-    if (reduceMotion) return;
-    demo.current = animate(wipe, [START, 0.85, 0.3, START], {
-      duration: 2.2,
-      times: [0, 0.35, 0.75, 1],
-      ease: EASE_OUT,
-      delay: 0.8,
-    });
-    return () => demo.current?.stop();
+    const el = frameRef.current;
+    if (!el || reduceMotion) return;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        io.disconnect();
+        demo.current = animate(wipe, [START, 0.78, 0.24, START], {
+          duration: 2.6,
+          times: [0, 0.35, 0.75, 1],
+          ease: EASE_OUT,
+          delay: 0.3,
+        });
+      },
+      { threshold: 0.55 },
+    );
+    io.observe(el);
+    return () => {
+      io.disconnect();
+      demo.current?.stop();
+    };
   }, [reduceMotion, wipe]);
 
-  // La cuffia sta sopra e si scopre da sinistra man mano che il valore cresce.
+  // "Con la cuffia" sta sopra e si scopre da sinistra man mano che il valore cresce.
   const clipPath = useTransform(wipe, (v) => `inset(0 ${100 - clamp01(v) * 100}% 0 0)`);
   const left = useTransform(wipe, (v) => `${clamp01(v) * 100}%`);
 
@@ -90,8 +103,10 @@ export function BeforeAfter() {
     wipe.set(clamp01(next));
   };
 
+  const sizes = "(min-width: 1280px) 1184px, 100vw";
+
   return (
-    <figure className="sticker overflow-hidden">
+    <figure>
       <div
         ref={frameRef}
         role="slider"
@@ -113,38 +128,34 @@ export function BeforeAfter() {
         onPointerUp={endDrag}
         onPointerCancel={endDrag}
         onKeyDown={onKeyDown}
-        className="relative isolate aspect-[400/432] w-full cursor-ew-resize touch-none select-none overflow-hidden bg-sole"
+        className="relative isolate aspect-[4/5] w-full cursor-ew-resize touch-pan-y select-none overflow-hidden rounded-[1.5rem] bg-fondo-2 shadow-[var(--shadow-lift)] sm:aspect-[3/2]"
       >
-        {/* Sotto: orecchie libere */}
-        <div className="absolute inset-0 grid place-items-end">
-          <Barack snood={false} className="h-[94%] w-full" />
-        </div>
-
-        {/* Sopra: con la cuffia, scoperto dal cursore */}
-        <motion.div className="absolute inset-0 grid place-items-end bg-sole" style={{ clipPath }}>
-          <Barack className="h-[94%] w-full" />
+        <Image src={AI.senza.src} alt={AI.senza.alt} fill sizes={sizes} draggable={false} className="object-cover" />
+        <motion.div className="absolute inset-0" style={{ clipPath }}>
+          <Image src={AI.con.src} alt={AI.con.alt} fill sizes={sizes} draggable={false} className="object-cover" />
         </motion.div>
 
-        <span className="chip pointer-events-none absolute left-3 top-3 z-10 bg-azzurro">Con la cuffia</span>
-        <span className="chip pointer-events-none absolute right-3 top-3 z-10 bg-carta">Senza</span>
+        <span className="chip pointer-events-none absolute left-4 top-4 z-10 bg-blu text-white">Con la cuffia</span>
+        <span className="chip pointer-events-none absolute right-4 top-4 z-10">Senza</span>
 
         <motion.div
           aria-hidden
-          className="pointer-events-none absolute inset-y-0 z-20 w-[3px] bg-ink"
+          className="pointer-events-none absolute inset-y-0 z-20 w-0.5 bg-white shadow-[0_0_14px_rgb(0_0_0/0.4)]"
           style={{ left, x: "-50%" }}
         />
         <motion.div className="pointer-events-none absolute top-1/2 z-30" style={{ left, x: "-50%", y: "-50%" }}>
           <motion.div
             animate={{ scale: pressed ? 0.92 : 1 }}
             transition={{ duration: 0.12, ease: EASE_OUT }}
-            className="grid size-12 place-items-center rounded-full border-2 border-ink bg-miele shadow-[0_3px_0_var(--color-ink)]"
+            className="grid size-14 place-items-center rounded-full bg-white text-ink shadow-[var(--shadow-lift)]"
           >
             <ChevronsLeftRight size={22} aria-hidden />
           </motion.div>
         </motion.div>
       </div>
-      <figcaption className="border-t-2 border-ink bg-carta px-4 py-3 font-hand text-2xl leading-tight">
-        Trascina verso destra per mettermi la cuffia.
+      <figcaption className="mt-3 text-sm text-ink-soft">
+        Trascina il cursore, o usa le frecce della tastiera. Immagini generate con AI a partire dalle foto reali della
+        cuffia.
       </figcaption>
     </figure>
   );

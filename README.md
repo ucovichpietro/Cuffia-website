@@ -1,36 +1,38 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# CUFFIA — sito e-commerce
 
-## Getting Started
+Cuffie paraorecchie per Cocker e cani a orecchie lunghe. Prototipo in Next.js 16, Tailwind 4 e Motion.
 
-First, run the development server:
+## Avvio
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Poi apri `http://localhost:3000`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Cosa c'è
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Percorso | Pagina |
+|---|---|
+| `/` | Home: video d'apertura, confronto con/senza, come funziona, cuffie, taglie, galleria, storia |
+| `/shop` | Catalogo con filtri, ordinamento e ricerca |
+| `/shop/[slug]` | Scheda prodotto con galleria fotografica |
+| `/info` | Storia, guida all'uso, taglie, spedizioni, FAQ |
+| `/contatti` | Modulo e recapiti |
+| `/carrello`, `/checkout` | Carrello e checkout dimostrativo in tre passi |
+| `/account`, `/legale/[slug]` | Area cliente e pagine legali (bozze) |
 
-## Learn More
+## Dove mettere mano
 
-To learn more about Next.js, take a look at the following resources:
+- **Prodotti, prezzi, taglie, FAQ:** `src/lib/products.ts`
+- **Colori e font:** `src/app/globals.css` e `src/app/layout.tsx`
+- **Immagini e video:** `public/media/` (come sono fatti: `docs/produzione-immagini.md`)
+- **Decisioni di design:** `design-system/cuffia-v2/pages/brand.md`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Cosa è ancora bozza
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Prezzi, misure delle taglie, materiali e condizioni di vendita sono segnaposto.
+- Moduli, newsletter, login e checkout non inviano né incassano nulla.
+- Dati aziendali e testi legali sono da completare e far validare.
+- Le foto reali richiedono il consenso di chi le ha scattate prima della pubblicazione.

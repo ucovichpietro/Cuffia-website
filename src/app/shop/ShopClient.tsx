@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useMemo, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { SlidersHorizontal, X } from "lucide-react";
@@ -14,14 +15,13 @@ const CATS = [
   { id: "cuffie", label: "Cuffie" },
   { id: "accessori", label: "Accessori" },
 ];
-const TIPI: Tipo[] = ["Cotone", "Pappa", "Impermeabile", "Imbottita", "Accessorio"];
+const TIPI: Tipo[] = ["Cotone", "Impermeabile", "Pile"];
 const SIZES: Size[] = ["XS", "S", "M", "L"];
 const MAX_PRICE = Math.ceil(Math.max(...products.map((p) => p.price)));
 const SORTS = [
   { id: "consigliati", label: "Consigliati" },
   { id: "prezzo-su", label: "Prezzo crescente" },
   { id: "prezzo-giu", label: "Prezzo decrescente" },
-  { id: "recensioni", label: "Più recensiti" },
 ];
 
 function toggle<T>(list: T[], v: T) {
@@ -53,7 +53,6 @@ export function ShopClient({ initial }: { initial: ShopInitial }) {
     );
     if (sort === "prezzo-su") out.sort((a, b) => a.price - b.price);
     if (sort === "prezzo-giu") out.sort((a, b) => b.price - a.price);
-    if (sort === "recensioni") out.sort((a, b) => b.reviews - a.reviews);
     return out;
   }, [cat, tipi, sizes, maxPrice, onlyNew, onlySale, q, sort]);
 
@@ -70,7 +69,7 @@ export function ShopClient({ initial }: { initial: ShopInitial }) {
   };
 
   const title = q
-    ? `Risultati per "${q}"`
+    ? `Risultati per “${q}”`
     : onlyNew
       ? "Novità"
       : onlySale
@@ -79,26 +78,23 @@ export function ShopClient({ initial }: { initial: ShopInitial }) {
           ? "Cuffie"
           : cat === "accessori"
             ? "Accessori"
-            : "Tutti i prodotti";
+            : "Tutte le cuffie";
 
   const check = "h-5 w-5 shrink-0 cursor-pointer accent-blu";
   const row = "flex min-h-11 cursor-pointer items-center gap-3";
+  const legend = "mb-3 text-xs font-semibold uppercase tracking-[0.16em] text-ink-soft";
+  const pill = (on: boolean) =>
+    `min-h-11 cursor-pointer rounded-full border px-4 text-[0.95rem] font-medium transition-colors duration-200 ${
+      on ? "border-ink bg-ink text-white" : "border-bordo-forte bg-carta hover:border-ink"
+    }`;
 
   const filters = (
-    <div className="space-y-7">
+    <div className="space-y-9">
       <fieldset>
-        <legend className="mb-2 font-display text-lg font-semibold">Categoria</legend>
+        <legend className={legend}>Categoria</legend>
         <div className="flex flex-wrap gap-2">
           {CATS.map((c) => (
-            <button
-              key={c.id}
-              type="button"
-              aria-pressed={cat === c.id}
-              onClick={() => setCat(c.id)}
-              className={`min-h-11 cursor-pointer rounded-full border-2 border-ink px-4 font-display font-medium transition-colors duration-150 ${
-                cat === c.id ? "bg-ink text-white" : "bg-carta hover:bg-azzurro-soft"
-              }`}
-            >
+            <button key={c.id} type="button" aria-pressed={cat === c.id} onClick={() => setCat(c.id)} className={pill(cat === c.id)}>
               {c.label}
             </button>
           ))}
@@ -106,7 +102,7 @@ export function ShopClient({ initial }: { initial: ShopInitial }) {
       </fieldset>
 
       <fieldset>
-        <legend className="mb-1 font-display text-lg font-semibold">Tipo</legend>
+        <legend className={legend}>Tessuto</legend>
         {TIPI.map((t) => (
           <label key={t} className={row}>
             <input type="checkbox" className={check} checked={tipi.includes(t)} onChange={() => setTipi(toggle(tipi, t))} />
@@ -116,7 +112,7 @@ export function ShopClient({ initial }: { initial: ShopInitial }) {
       </fieldset>
 
       <fieldset>
-        <legend className="mb-2 font-display text-lg font-semibold">Taglia</legend>
+        <legend className={legend}>Taglia</legend>
         <div className="flex gap-2">
           {SIZES.map((s) => (
             <button
@@ -124,8 +120,8 @@ export function ShopClient({ initial }: { initial: ShopInitial }) {
               type="button"
               aria-pressed={sizes.includes(s)}
               onClick={() => setSizes(toggle(sizes, s))}
-              className={`h-11 w-11 cursor-pointer rounded-xl border-2 border-ink font-display font-semibold transition-colors duration-150 ${
-                sizes.includes(s) ? "bg-ink text-white" : "bg-carta hover:bg-azzurro-soft"
+              className={`h-11 w-11 cursor-pointer rounded-full border text-sm font-semibold transition-colors duration-200 ${
+                sizes.includes(s) ? "border-ink bg-ink text-white" : "border-bordo-forte bg-carta hover:border-ink"
               }`}
             >
               {s}
@@ -135,13 +131,13 @@ export function ShopClient({ initial }: { initial: ShopInitial }) {
       </fieldset>
 
       <div>
-        <label htmlFor="prezzo" className="mb-2 block font-display text-lg font-semibold">
-          Prezzo: fino a {eur(maxPrice)}
+        <label htmlFor="prezzo" className={`${legend} block`}>
+          Prezzo: fino a <span className="tabular-nums">{eur(maxPrice)}</span>
         </label>
         <input
           id="prezzo"
           type="range"
-          min={10}
+          min={20}
           max={MAX_PRICE}
           step={1}
           value={maxPrice}
@@ -151,7 +147,7 @@ export function ShopClient({ initial }: { initial: ShopInitial }) {
       </div>
 
       <fieldset>
-        <legend className="mb-1 font-display text-lg font-semibold">Mostra solo</legend>
+        <legend className={legend}>Mostra solo</legend>
         <label className={row}>
           <input type="checkbox" className={check} checked={onlyNew} onChange={(e) => setOnlyNew(e.target.checked)} />
           Novità
@@ -170,15 +166,20 @@ export function ShopClient({ initial }: { initial: ShopInitial }) {
     </div>
   );
 
+  const comingSoon = cat === "accessori";
+
   return (
-    <div className="container-x py-10">
+    <div className="container-x py-14">
       <nav aria-label="Percorso" className="text-sm text-ink-soft">
-        Home / <span className="text-ink">Shop</span>
+        <Link href="/" className="hover:underline">
+          Home
+        </Link>{" "}
+        / <span className="text-ink">Shop</span>
       </nav>
-      <div className="mt-3 flex flex-wrap items-end justify-between gap-4">
+      <div className="mt-5 flex flex-wrap items-end justify-between gap-5">
         <div>
-          <h1 className="text-4xl sm:text-5xl">{title}</h1>
-          <p className="mt-2 text-ink-soft" aria-live="polite">
+          <h1 className="text-5xl sm:text-6xl">{title}</h1>
+          <p className="mt-3 text-ink-soft" aria-live="polite">
             {list.length} {list.length === 1 ? "prodotto" : "prodotti"}
           </p>
         </div>
@@ -189,12 +190,12 @@ export function ShopClient({ initial }: { initial: ShopInitial }) {
             aria-expanded={filtersOpen}
             onClick={() => setFiltersOpen(!filtersOpen)}
           >
-            <SlidersHorizontal size={18} /> Filtri{activeCount > 0 && ` (${activeCount})`}
+            <SlidersHorizontal size={17} /> Filtri{activeCount > 0 && ` (${activeCount})`}
           </button>
           <label htmlFor="ordina" className="sr-only">
             Ordina per
           </label>
-          <select id="ordina" value={sort} onChange={(e) => setSort(e.target.value)} className="field !w-auto cursor-pointer font-display font-medium">
+          <select id="ordina" value={sort} onChange={(e) => setSort(e.target.value)} className="field !w-auto cursor-pointer !rounded-full font-medium">
             {SORTS.map((s) => (
               <option key={s.id} value={s.id}>
                 {s.label}
@@ -204,30 +205,40 @@ export function ShopClient({ initial }: { initial: ShopInitial }) {
         </div>
       </div>
 
-      <div className="mt-8 grid gap-10 lg:grid-cols-[15rem_1fr]">
+      <div className="mt-12 grid gap-12 lg:grid-cols-[14rem_1fr]">
         <aside aria-label="Filtri" className={`${filtersOpen ? "block" : "hidden"} lg:block`}>
           <div className="lg:sticky lg:top-28">{filters}</div>
         </aside>
 
         {list.length === 0 ? (
-          <div className="sticker grid place-items-center gap-3 p-10 text-center">
-            <p className="eyebrow">Qui non c&apos;è niente</p>
-            <p className="text-ink-soft">Nessun prodotto corrisponde a questi filtri. Prova ad allargarli.</p>
-            <button type="button" onClick={reset} className="btn btn-primary">
-              Azzera i filtri
-            </button>
+          <div className="card grid place-items-center gap-4 p-12 text-center">
+            <p className="font-display text-3xl">{comingSoon ? "Accessori in arrivo" : "Nessun risultato"}</p>
+            <p className="max-w-md text-ink-soft">
+              {comingSoon
+                ? "Stiamo lavorando ai primi accessori coordinati alle cuffie. Iscriviti alla newsletter in fondo alla home: chi è in lista lo sa per primo."
+                : "Nessun prodotto corrisponde a questi filtri. Prova ad allargarli."}
+            </p>
+            {comingSoon ? (
+              <button type="button" onClick={() => setCat("cuffie")} className="btn btn-primary">
+                Vedi le cuffie
+              </button>
+            ) : (
+              <button type="button" onClick={reset} className="btn btn-primary">
+                Azzera i filtri
+              </button>
+            )}
           </div>
         ) : (
-          <ul className="grid grid-cols-2 gap-4 sm:gap-6 xl:grid-cols-3">
+          <ul className="grid grid-cols-2 gap-x-5 gap-y-10 xl:grid-cols-3 xl:gap-x-7">
             <AnimatePresence mode="popLayout" initial={false}>
               {list.map((p) => (
                 <motion.li
                   key={p.slug}
                   layout
-                  initial={{ opacity: 0, scale: 0.96 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.96 }}
-                  transition={{ duration: 0.25, ease: EASE_OUT }}
+                  initial={{ opacity: 0, y: 14 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.3, ease: EASE_OUT }}
                 >
                   <ProductCard product={p} />
                 </motion.li>
