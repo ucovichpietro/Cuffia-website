@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Componenti di codice per Framer: usano moduli che esistono solo dentro Framer.
+    "framer/**",
   ]),
 ]);
 

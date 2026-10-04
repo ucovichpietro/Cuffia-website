@@ -30,6 +30,15 @@ Poi apri `http://localhost:3000`.
 - **Immagini e video:** `public/media/` (come sono fatti: `docs/produzione-immagini.md`)
 - **Decisioni di design:** `design-system/cuffia-v2/pages/brand.md`
 
+## Framer
+
+La pagina d'ingresso esiste anche su Framer (progetto `QR5Z4CFQCMXXtWlMyEQ7`), con la stessa struttura
+della home: video d'apertura, confronto trascinabile, tre larghezze (computer, tablet, telefono).
+
+- `framer/ConfrontoCuffia.tsx` è il sorgente del confronto "con e senza". In Framer è tra i file di
+  codice con lo stesso nome: se lo modifichi qui, va ricaricato lì.
+- Il progetto Framer non è pubblicato e non ha carrello. Per vendere da lì serve collegare un negozio.
+
 ## Cosa è ancora bozza
 
 - Prezzi, misure delle taglie, materiali e condizioni di vendita sono segnaposto.
