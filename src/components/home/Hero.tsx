@@ -8,6 +8,7 @@ import { ArrowRight, Pause, Play } from "lucide-react";
 import { EASE_OUT } from "../Providers";
 
 const noop = () => () => {};
+const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
 /**
  * Apertura a tutto schermo con video, sul modello della landing di riferimento:
@@ -60,9 +61,9 @@ export function Hero() {
             videoReady ? "opacity-100" : "opacity-0"
           }`}
         >
-          <source src="/media/hero-720.mp4" type="video/mp4" media="(max-width: 767px)" />
-          <source src="/media/hero-1080.webm" type="video/webm" />
-          <source src="/media/hero-1080.mp4" type="video/mp4" />
+          <source src={`${BASE}/media/hero-720.mp4`} type="video/mp4" media="(max-width: 767px)" />
+          <source src={`${BASE}/media/hero-1080.webm`} type="video/webm" />
+          <source src={`${BASE}/media/hero-1080.mp4`} type="video/mp4" />
         </video>
       </motion.div>
 
